@@ -9,12 +9,9 @@ class Vps extends Model
 {
     use HasFactory;
 
-    use HasFactory;
-
     protected $fillable = ['customer_id', 'cpu', 'ram', 'storage', 'status'];
 
-    public function customer()
-    {
-        return $this->belongsTo(Customers::class);
+    public function customers() {
+        return $this->belongsTo(Customers::class, 'customer_id');
     }
 }

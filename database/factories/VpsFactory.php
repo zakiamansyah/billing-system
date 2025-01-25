@@ -20,7 +20,7 @@ class VpsFactory extends Factory
     public function definition(): array
     {
         return [
-            'customer_id' => \App\Models\Customers::factory(), // Correct column
+            'customer_id' => \App\Models\Customers::factory(),
             'cpu' => $this->faker->numberBetween(1, 8),
             'ram' => $this->faker->numberBetween(1, 32),
             'storage' => $this->faker->numberBetween(10, 500),

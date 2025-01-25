@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('vps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained()->onDelete('cascade'); // Correct column name
+            $table->foreignId('customer_id')->constrained(); // Correct column name
             $table->integer('cpu');
             $table->integer('ram');
             $table->integer('storage');
