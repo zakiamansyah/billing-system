@@ -21,7 +21,7 @@ class CustomersFactory extends Factory
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'balance' => $this->faker->randomFloat(2, 50, 500),
+            'balance' => $this->faker->numberBetween(100000, 10000000)
         ];
     }
 }

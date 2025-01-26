@@ -22,7 +22,7 @@ class Customers extends Model
     ];
 
     public function vps()
-    {
-        return $this->hasMany(Vps::class);
-    }
+{
+    return $this->hasMany(Vps::class, 'customer_id', 'id');
+}
 }

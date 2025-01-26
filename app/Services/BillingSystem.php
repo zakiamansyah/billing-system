@@ -43,11 +43,19 @@ class BillingSystem
 
     public function hourlyBilling()
     {
-        $vpsList = Vps::where('status', 'active')->get();
+        // Fetch active VPSes with their associated customer
+        $vpsList = Vps::where('status', 'active')->with('customer')->get();
 
         foreach ($vpsList as $vps) {
-            $customer = $vps->customer;
-            $hourlyCost = $this->calculateHourlyCost($vps->cpu, $vps->ram, $vps->storage);
+            $customer = $vps->customer; // Correct relationship name
+
+            // Skip if the customer is null (relationship issue)
+            if (!$customer) {
+                \Log::warning("VPS ID {$vps->id} has no associated customer.");
+                continue;
+            }
+
+            $hourlyCost = $this->calculateHourlyCost($vps->cpu, $vps->ram, $vps->storage) ?? 0;
 
             DB::beginTransaction();
 
@@ -71,12 +79,14 @@ class BillingSystem
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
-                throw $e;
+                \Log::error("Error processing hourly billing for VPS ID {$vps->id}: " . $e->getMessage());
             }
 
+            // Check and notify low balance
             $this->checkLowBalance($customer);
         }
     }
+
 
     public function routineChecks()
     {

@@ -11,7 +11,12 @@ class Vps extends Model
 
     protected $fillable = ['customer_id', 'cpu', 'ram', 'storage', 'status'];
 
-    public function customers() {
-        return $this->belongsTo(Customers::class, 'customer_id');
+    public function customer()
+    {
+        return $this->belongsTo(Customers::class, 'customer_id', 'id');
+    }
+    public function billingLogs()
+    {
+        return $this->hasMany(BillingLog::class);
     }
 }
