@@ -19,7 +19,7 @@ class BillingController extends Controller
     public function createVps(Request $request)
     {
         $validated = $request->validate([
-            'customer_id' => 'required|exists:customers,id',
+            'customer_id' => 'required',
             'cpu' => 'required|integer|min:1',
             'ram' => 'required|integer|min:1',
             'storage' => 'required|integer|min:1',
